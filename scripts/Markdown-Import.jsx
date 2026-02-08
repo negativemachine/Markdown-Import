@@ -2911,106 +2911,84 @@ var MarkdownImport = (function() {
     function removeBlankPagesAfterTextEnd(doc) {
         try {
             var hasFacingPages = doc.documentPreferences.facingPages;
-            var startFrame = null;
+
+            // Find the longest story via doc.stories (no page iteration needed)
+            var story = null;
             var maxLength = 0;
-            
-            // Recherche du bloc de texte le plus long
-            for (var p = 0; p < doc.pages.length; p++) {
-                for (var i = 0; i < doc.pages[p].textFrames.length; i++) {
-                    var frame = doc.pages[p].textFrames[i];
-                    if (frame.contents && frame.parentStory.length > maxLength) {
-                        maxLength = frame.parentStory.length;
-                        startFrame = frame;
-                    }
+            for (var i = 0; i < doc.stories.length; i++) {
+                if (doc.stories[i].length > maxLength) {
+                    maxLength = doc.stories[i].length;
+                    story = doc.stories[i];
                 }
             }
-            
-            if (!startFrame) {
-                return 0; // Aucun bloc de texte trouvé
+
+            if (!story || maxLength === 0) {
+                return 0;
             }
-            
-            var story = startFrame.parentStory;
-            var lastCharIndex = story.characters.length - 1;
-            
-            // Recherche du dernier caractère non-blanc
-            while (lastCharIndex >= 0) {
-                var charContent = story.characters[lastCharIndex].contents;
-                if (charContent !== " " && charContent !== "\r" && charContent !== "\n" && charContent !== "\t") {
+
+            // Find last non-blank character: read contents as JS string (1 DOM call)
+            // then loop in memory (instant) instead of per-character DOM access
+            var storyText = story.contents;
+            var lastNonBlank = storyText.length - 1;
+            while (lastNonBlank >= 0) {
+                var c = storyText.charAt(lastNonBlank);
+                if (c !== " " && c !== "\r" && c !== "\n" && c !== "\t") break;
+                lastNonBlank--;
+            }
+
+            if (lastNonBlank < 0) {
+                return 0;
+            }
+
+            // Single DOM access to get the parent frame of the last visible character
+            var endFrames = story.characters[lastNonBlank].parentTextFrames;
+            if (endFrames.length === 0) {
+                return 0;
+            }
+
+            var endPage = endFrames[0].parentPage;
+            if (!endPage) {
+                return 0;
+            }
+
+            // Find end page index by id comparison
+            var endPageIndex = -1;
+            for (var j = 0; j < doc.pages.length; j++) {
+                if (doc.pages[j].id === endPage.id) {
+                    endPageIndex = j;
                     break;
                 }
-                lastCharIndex--;
             }
-            
-            if (lastCharIndex < 0) {
-                return 0; // Pas de caractère significatif
+
+            if (endPageIndex === -1) {
+                return 0;
             }
-            
-            var lastChar = story.characters[lastCharIndex];
-            var endFrames = lastChar.parentTextFrames;
-            
-            if (endFrames.length === 0) {
-                return 0; // Impossible de trouver le cadre
-            }
-            
-            var endFrame = endFrames[0];
-            var endPage = null;
-            var endPageIndex = -1;
-            
-            // Recherche de la page contenant la fin du texte
-            try {
-                endPage = endFrame.parentPage;
-                
-                if (endPage) {
-                    for (var j = 0; j < doc.pages.length; j++) {
-                        if (doc.pages[j] === endPage) {
-                            endPageIndex = j;
-                            break;
-                        }
-                    }
-                }
-            } catch (e) {
-                for (var j = 0; j < doc.pages.length && !endPage; j++) {
-                    var page = doc.pages[j];
-                    for (var k = 0; k < page.textFrames.length; k++) {
-                        if (page.textFrames[k] === endFrame) {
-                            endPage = page;
-                            endPageIndex = j;
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            if (!endPage || endPageIndex === -1) {
-                return 0; // Page non trouvée
-            }
-            
+
             var firstPageToDeleteIndex = endPageIndex + 1;
-            
+
             if (firstPageToDeleteIndex >= doc.pages.length) {
-                return 0; // Pas de pages à supprimer
+                return 0;
             }
-            
+
             var pagesToRemove = doc.pages.length - firstPageToDeleteIndex;
-            
-            // Suppression des pages
+
             for (var i = doc.pages.length - 1; i >= firstPageToDeleteIndex; i--) {
                 doc.pages[i].remove();
             }
-            
+
             // Gestion des documents à pages en vis-à-vis
             if (hasFacingPages && doc.pages.length > 0) {
                 var lastPage = doc.pages[doc.pages.length - 1];
                 if (lastPage.side === PageSideOptions.RIGHT_HAND) {
                     doc.pages.add(LocationOptions.AFTER, lastPage);
-                    return pagesToRemove - 1; // Une page a été ajoutée
+                    return pagesToRemove - 1;
                 }
             }
-            
+
             return pagesToRemove;
         } catch (e) {
             $.writeln("Error in removeBlankPagesAfterTextEnd: " + e.message);
-            return 0; // En cas d'erreur
+            return 0;
         }
     }
     
