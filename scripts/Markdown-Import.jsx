@@ -1445,7 +1445,77 @@ var MarkdownImport = (function() {
             throw new Error("Could not find a valid story to modify");
         }
     }
-    
+
+    /**
+     * Detect Pandoc class on first H1 (e.g. {epub:type=bibliography .bibliography})
+     * and override styleMapping with prefixed styles if they exist in the document.
+     * For example, with class .bibliography, "H1" becomes "Bibliography H1" if that
+     * style exists, otherwise falls back to "H1".
+     * Also strips all {epub:type=... .class} attribute blocks from the text.
+     * @param {Story} target - The story to process
+     * @param {Object} styleMapping - Style mapping to override in-place
+     * @param {Object} styles - Collected styles {paragraph: [], character: []}
+     */
+    function applyClassPrefix(target, styleMapping, styles) {
+        try {
+            // Find first {... .classname ...} block via GREP
+            app.findGrepPreferences = app.changeGrepPreferences = null;
+            app.findGrepPreferences.findWhat = "\\{[^\\}]*\\.[a-zA-Z][^\\}]*\\}";
+            var found = target.findGrep();
+            app.findGrepPreferences = app.changeGrepPreferences = null;
+
+            if (found.length > 0) {
+                // Extract class name from first match (e.g. ".bibliography")
+                var matchText = found[0].contents;
+                var classMatch = matchText.match(/\.([a-zA-Z][\w-]*)/);
+
+                if (classMatch) {
+                    var className = classMatch[1];
+                    var prefix = className.charAt(0).toUpperCase() + className.substring(1).toLowerCase();
+
+                    // Override paragraph styles with prefixed versions
+                    var paraKeys = ["h1", "h2", "h3", "h4", "h5", "h6", "quote", "bulletlist", "normal", "note"];
+                    for (var i = 0; i < paraKeys.length; i++) {
+                        var key = paraKeys[i];
+                        if (styleMapping[key]) {
+                            var prefixedName = prefix + " " + styleMapping[key].name;
+                            for (var j = 0; j < styles.paragraph.length; j++) {
+                                if (styles.paragraph[j].name === prefixedName) {
+                                    styleMapping[key] = styles.paragraph[j];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // Override character styles with prefixed versions
+                    var charKeys = ["italic", "bold", "bolditalic", "underline", "smallcaps", "superscript", "subscript", "strikethrough"];
+                    for (var i = 0; i < charKeys.length; i++) {
+                        var key = charKeys[i];
+                        if (styleMapping[key]) {
+                            var prefixedName = prefix + " " + styleMapping[key].name;
+                            for (var j = 0; j < styles.character.length; j++) {
+                                if (styles.character[j].name === prefixedName) {
+                                    styleMapping[key] = styles.character[j];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Strip all Pandoc attribute blocks {epub:type=... .class} from text
+            app.findGrepPreferences = app.changeGrepPreferences = null;
+            app.findGrepPreferences.findWhat = "\\s*\\{[^\\}]*\\.[a-zA-Z][^\\}]*\\}";
+            app.changeGrepPreferences.changeTo = "";
+            target.changeGrep();
+            app.findGrepPreferences = app.changeGrepPreferences = null;
+        } catch (e) {
+            $.writeln("Error in applyClassPrefix: " + e.message);
+        }
+    }
+
     /**
      * Reset all styles to normal and protect escaped characters
      * @param {Story} target - The story to modify
@@ -3735,7 +3805,8 @@ var MarkdownImport = (function() {
                 // Encapsuler le traitement dans une transaction unique
                 app.doScript(function() {
                     var target = getTargetStory();
-                    
+
+                    applyClassPrefix(target, styleMapping, styles);
                     resetStyles(target, styleMapping);
                     joinSoftWraps(target);
                     applyParagraphStyles(target, styleMapping);
@@ -3805,7 +3876,9 @@ var MarkdownImport = (function() {
                     // Get target story from selected frame, labeled frame, or first story
                     updateProgressBar(1, I18n.__("gettingTargetStory"));
                     var target = getTargetStory();
-                    
+
+                    applyClassPrefix(target, styleMapping, styles);
+
                     // Reset to normal style before processing
                     updateProgressBar(2, I18n.__("resettingStyles"));
                     resetStyles(target, styleMapping);
