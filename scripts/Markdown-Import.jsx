@@ -1467,7 +1467,29 @@ var MarkdownImport = (function() {
             throw new Error("Failed to reset styles: " + e.message);
         }
     }
-    
+
+    /**
+     * Join soft-wrapped lines into single paragraphs (Pandoc wrap handling).
+     * In Pandoc Markdown, only a double return is a real paragraph break.
+     * A single return is a soft wrap (joined with a space), unless preceded
+     * by two spaces (hard/forced line break, handled later by cleanupText).
+     * @param {Story} target - The story to modify
+     */
+    function joinSoftWraps(target) {
+        try {
+            app.findGrepPreferences = app.changeGrepPreferences = null;
+            app.findChangeGrepOptions.includeFootnotes = false;
+            // Match a \r preceded by a non-space/non-return char,
+            // followed by a non-return char (i.e. not a blank line)
+            app.findGrepPreferences.findWhat = "(?<=[^ \\r])\\r(?=[^\\r])";
+            app.changeGrepPreferences.changeTo = " ";
+            target.changeGrep();
+            app.findGrepPreferences = app.changeGrepPreferences = null;
+        } catch (e) {
+            $.writeln("Error in joinSoftWraps: " + e.message);
+        }
+    }
+
     /**
      * Apply paragraph styles to matching patterns
      * @param {Story} target - The story to modify
@@ -3671,6 +3693,7 @@ var MarkdownImport = (function() {
                     var target = getTargetStory();
                     
                     resetStyles(target, styleMapping);
+                    joinSoftWraps(target);
                     applyParagraphStyles(target, styleMapping);
                     applyCharacterStyles(target, styleMapping);
                     applyPandocInlineClasses(target);
@@ -3742,7 +3765,10 @@ var MarkdownImport = (function() {
                     // Reset to normal style before processing
                     updateProgressBar(2, I18n.__("resettingStyles"));
                     resetStyles(target, styleMapping);
-                    
+
+                    // Join soft-wrapped lines (Pandoc wrap handling)
+                    joinSoftWraps(target);
+
                     // Apply paragraph styles (headings, quotes, lists)
                     updateProgressBar(3, I18n.__("applyingParagraphStyles"));
                     applyParagraphStyles(target, styleMapping);
