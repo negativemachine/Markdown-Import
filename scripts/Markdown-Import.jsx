@@ -2967,22 +2967,13 @@ var MarkdownImport = (function() {
 
             var pagesToRemove = doc.pages.length - firstPageToDeleteIndex;
 
-            // Batch page removal in FAST_ENTIRE_SCRIPT to suppress intermediate relayouts
-            var deleteFrom = firstPageToDeleteIndex;
-            app.doScript(function() {
-                for (var i = doc.pages.length - 1; i >= deleteFrom; i--) {
-                    doc.pages[i].remove();
-                }
-            }, ScriptLanguage.JAVASCRIPT, undefined, UndoModes.FAST_ENTIRE_SCRIPT);
-
-            // Gestion des documents à pages en vis-à-vis
-            if (hasFacingPages && doc.pages.length > 0) {
-                var lastPage = doc.pages[doc.pages.length - 1];
-                if (lastPage.side === PageSideOptions.RIGHT_HAND) {
-                    doc.pages.add(LocationOptions.AFTER, lastPage);
-                    return pagesToRemove - 1;
-                }
+            // Set target page count directly (single operation, no per-page relayout)
+            var targetPageCount = firstPageToDeleteIndex;
+            // Facing pages: ensure even page count so last spread is complete
+            if (hasFacingPages && targetPageCount % 2 !== 0) {
+                targetPageCount++;
             }
+            doc.documentPreferences.pagesPerDocument = targetPageCount;
 
             return pagesToRemove;
         } catch (e) {
