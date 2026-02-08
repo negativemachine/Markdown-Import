@@ -1000,7 +1000,7 @@ var MarkdownImport = (function() {
      * Configuration file extension
      * @private
      */
-    var CONFIG_EXT = ".mdconfig";
+    var CONFIG_EXT = ".json";
     
     /**
      * Progress window reference
@@ -1059,8 +1059,8 @@ var MarkdownImport = (function() {
         var files = [];
         
         try {
-            // Find .mdconfig files in current folder
-            var configFiles = folder.getFiles("*.mdconfig");
+            // Find .json config files in current folder
+            var configFiles = folder.getFiles("*.json");
             if (configFiles && configFiles.length > 0) {
                 for (var i = 0; i < configFiles.length; i++) {
                     files.push(configFiles[i]);
@@ -1109,7 +1109,7 @@ var MarkdownImport = (function() {
             // Create folder object
             var folder = new Folder(docPath);
             
-            // Recursive search for .mdconfig files with a maximum depth of 3
+            // Recursive search for .json config files with a maximum depth of 3
             var files = findConfigFilesRecursively(folder, 3, 0);
             
             // No configuration file found
@@ -3671,7 +3671,7 @@ var MarkdownImport = (function() {
                                 var configFile = foundConfigFiles[i];
                                 var parentFolder = configFile.parent;
                                 
-                                if (parentFolder.name.toLowerCase() === "config" && configFile.name === "mapping.mdconfig") {
+                                if (parentFolder.name.toLowerCase() === "config" && configFile.name === "mapping.json") {
                                     configInConfigFolder = true;
                                     silentMode = true; // Activer le mode silencieux
                                     break;
