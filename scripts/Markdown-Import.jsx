@@ -898,8 +898,15 @@ var MarkdownImport = (function() {
             if (!config || !config.processTablesEnabled) {
                 return 0; // Tables processing disabled
             }
-            
+
             var rawText = story.texts[0].contents || "";
+
+            // Quick check: skip entirely if no pipe character found (no table possible)
+            if (String(rawText).indexOf("|") < 0) {
+                $.writeln("No table markup found in story, skipping table processing");
+                return 0;
+            }
+
             var normalizedText = String(rawText).replace(/\r\n|\n/g, "\r");
             var lines = normalizedText.split("\r");
             
@@ -1969,8 +1976,15 @@ var MarkdownImport = (function() {
     function processStoryImages(story, baseFolder, config, silentMode) {
         var processedCount = 0;
         var errorCount = 0;
-        
+
         try {
+            // Quick check: skip entirely if no image markup found in story
+            var rawContents = String(story.contents);
+            if (rawContents.indexOf("![") < 0) {
+                $.writeln("No image markup found in story, skipping image processing");
+                return 0;
+            }
+
             var paragraphs = story.paragraphs;
             if (!paragraphs || !paragraphs.length) return processedCount;
             
