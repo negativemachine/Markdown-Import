@@ -3644,12 +3644,80 @@ var MarkdownImport = (function() {
                 silentMode = true;
             }
         }
-        
+
+        // Méthode 3: Config path passed via scriptArgs (from BookCreator integration)
+        var externalConfigPath = null;
+        try {
+            if (app.scriptArgs.isDefined("mdConfigPath")) {
+                externalConfigPath = app.scriptArgs.getValue("mdConfigPath");
+                app.scriptArgs.clear("mdConfigPath"); // Consume the arg
+                silentMode = true;
+            }
+        } catch (e) {}
+
         // Recueillir les styles du document
         var styles = collectStyles(doc);
-        
+
         // Charger la configuration automatiquement
-        var autoConfig = autoLoadConfig(styles);
+        var autoConfig = null;
+
+        if (externalConfigPath) {
+            // Load config from external path (passed by BookCreator)
+            try {
+                var extConfigFile = new File(externalConfigPath);
+                if (extConfigFile.exists) {
+                    extConfigFile.encoding = "UTF-8";
+                    extConfigFile.open("r");
+                    var content = extConfigFile.read();
+                    extConfigFile.close();
+
+                    var configData = JSON.parse(content);
+                    autoConfig = {};
+
+                    function findStyleByName(list, name) {
+                        if (name === null) return null;
+                        for (var i = 0; i < list.length; i++) {
+                            if (list[i].name === name) return list[i];
+                        }
+                        return null;
+                    }
+
+                    autoConfig.h1 = configData.h1 !== null ? findStyleByName(styles.paragraph, configData.h1) : null;
+                    autoConfig.h2 = configData.h2 !== null ? findStyleByName(styles.paragraph, configData.h2) : null;
+                    autoConfig.h3 = configData.h3 !== null ? findStyleByName(styles.paragraph, configData.h3) : null;
+                    autoConfig.h4 = configData.h4 !== null ? findStyleByName(styles.paragraph, configData.h4) : null;
+                    autoConfig.h5 = configData.h5 !== null ? findStyleByName(styles.paragraph, configData.h5) : null;
+                    autoConfig.h6 = configData.h6 !== null ? findStyleByName(styles.paragraph, configData.h6) : null;
+                    autoConfig.quote = configData.quote !== null ? findStyleByName(styles.paragraph, configData.quote) : null;
+                    autoConfig.bulletlist = configData.bulletlist !== null ? findStyleByName(styles.paragraph, configData.bulletlist) : null;
+                    autoConfig.normal = configData.normal !== null ? findStyleByName(styles.paragraph, configData.normal) : null;
+                    autoConfig.italic = configData.italic !== null ? findStyleByName(styles.character, configData.italic) : null;
+                    autoConfig.bold = configData.bold !== null ? findStyleByName(styles.character, configData.bold) : null;
+                    autoConfig.bolditalic = configData.bolditalic !== null ? findStyleByName(styles.character, configData.bolditalic) : null;
+                    autoConfig.underline = configData.underline !== null ? findStyleByName(styles.character, configData.underline) : null;
+                    autoConfig.smallcaps = configData.smallcaps !== null ? findStyleByName(styles.character, configData.smallcaps) : null;
+                    autoConfig.superscript = configData.superscript !== null ? findStyleByName(styles.character, configData.superscript) : null;
+                    autoConfig.subscript = configData.subscript !== null ? findStyleByName(styles.character, configData.subscript) : null;
+                    autoConfig.strikethrough = configData.strikethrough !== null ? findStyleByName(styles.character, configData.strikethrough) : null;
+                    autoConfig.note = configData.note !== null ? findStyleByName(styles.paragraph, configData.note) : null;
+                    autoConfig.removeBlankPages = configData.removeBlankPages === true;
+
+                    if (configData.imageConfig) {
+                        autoConfig.imageConfig = configData.imageConfig;
+                    }
+                    if (configData.tableConfig) {
+                        autoConfig.tableConfig = configData.tableConfig;
+                    }
+                }
+            } catch (e) {
+                $.writeln("Error loading external config: " + e.message);
+                autoConfig = null;
+            }
+        }
+
+        if (!autoConfig) {
+            autoConfig = autoLoadConfig(styles);
+        }
         
         // NOUVELLE FONCTIONNALITÉ: Vérifier si la configuration se trouve dans un dossier nommé "config"
         var configInConfigFolder = false;
