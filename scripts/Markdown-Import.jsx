@@ -2967,9 +2967,13 @@ var MarkdownImport = (function() {
 
             var pagesToRemove = doc.pages.length - firstPageToDeleteIndex;
 
-            for (var i = doc.pages.length - 1; i >= firstPageToDeleteIndex; i--) {
-                doc.pages[i].remove();
-            }
+            // Batch page removal in FAST_ENTIRE_SCRIPT to suppress intermediate relayouts
+            var deleteFrom = firstPageToDeleteIndex;
+            app.doScript(function() {
+                for (var i = doc.pages.length - 1; i >= deleteFrom; i--) {
+                    doc.pages[i].remove();
+                }
+            }, ScriptLanguage.JAVASCRIPT, undefined, UndoModes.FAST_ENTIRE_SCRIPT);
 
             // Gestion des documents à pages en vis-à-vis
             if (hasFacingPages && doc.pages.length > 0) {
