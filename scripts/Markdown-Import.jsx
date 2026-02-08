@@ -2912,7 +2912,7 @@ var MarkdownImport = (function() {
         try {
             var hasFacingPages = doc.documentPreferences.facingPages;
 
-            // Find the longest story via doc.stories (no page iteration needed)
+            // Find the longest story via doc.stories
             var story = null;
             var maxLength = 0;
             for (var i = 0; i < doc.stories.length; i++) {
@@ -2926,32 +2926,27 @@ var MarkdownImport = (function() {
                 return 0;
             }
 
-            // Find last non-blank character: read contents as JS string (1 DOM call)
-            // then loop in memory (instant) instead of per-character DOM access
-            var storyText = story.contents;
-            var lastNonBlank = storyText.length - 1;
-            while (lastNonBlank >= 0) {
-                var c = storyText.charAt(lastNonBlank);
-                if (c !== " " && c !== "\r" && c !== "\n" && c !== "\t") break;
-                lastNonBlank--;
+            // Walk backward through text containers (frames in the chain)
+            // Only read the contents of the last few frames, not the entire story
+            var containers = story.textContainers;
+            var lastContentFrame = null;
+            for (var i = containers.length - 1; i >= 0; i--) {
+                if (/\S/.test(containers[i].contents)) {
+                    lastContentFrame = containers[i];
+                    break;
+                }
             }
 
-            if (lastNonBlank < 0) {
+            if (!lastContentFrame) {
                 return 0;
             }
 
-            // Single DOM access to get the parent frame of the last visible character
-            var endFrames = story.characters[lastNonBlank].parentTextFrames;
-            if (endFrames.length === 0) {
-                return 0;
-            }
-
-            var endPage = endFrames[0].parentPage;
+            var endPage = lastContentFrame.parentPage;
             if (!endPage) {
                 return 0;
             }
 
-            // Find end page index by id comparison
+            // Find end page index
             var endPageIndex = -1;
             for (var j = 0; j < doc.pages.length; j++) {
                 if (doc.pages[j].id === endPage.id) {
