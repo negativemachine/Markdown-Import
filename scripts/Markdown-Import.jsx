@@ -1059,8 +1059,8 @@ var MarkdownImport = (function() {
         var files = [];
         
         try {
-            // Find .json config files in current folder
-            var configFiles = folder.getFiles("*.json");
+            // Find mapping.json config file in current folder
+            var configFiles = folder.getFiles("mapping.json");
             if (configFiles && configFiles.length > 0) {
                 for (var i = 0; i < configFiles.length; i++) {
                     files.push(configFiles[i]);
