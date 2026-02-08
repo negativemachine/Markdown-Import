@@ -900,10 +900,12 @@ var MarkdownImport = (function() {
             }
 
             var rawText = story.texts[0].contents || "";
+            var textStr = String(rawText);
 
-            // Quick check: skip entirely if no pipe character found (no table possible)
-            if (String(rawText).indexOf("|") < 0) {
-                $.writeln("No table markup found in story, skipping table processing");
+            // Quick check: skip if no table ruler pattern found
+            // A Markdown table always has a ruler line with |--- or ---| or |:---
+            if (textStr.indexOf("|---") < 0 && textStr.indexOf("---|") < 0 && textStr.indexOf("|:---") < 0) {
+                $.writeln("No table ruler found in story, skipping table processing");
                 return 0;
             }
 
