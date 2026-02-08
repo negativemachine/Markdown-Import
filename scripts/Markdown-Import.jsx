@@ -1479,8 +1479,16 @@ var MarkdownImport = (function() {
         try {
             app.findGrepPreferences = app.changeGrepPreferences = null;
             app.findChangeGrepOptions.includeFootnotes = false;
-            // Match a \r preceded by a non-space/non-return char,
-            // followed by a non-return char (i.e. not a blank line)
+
+            // 1. Blockquote continuation: \r followed by "> " → join with space
+            // Must run BEFORE general wrap joining so the ">" prefixes are removed first
+            app.findGrepPreferences.findWhat = "(?<=[^\\r])\\r> ";
+            app.changeGrepPreferences.changeTo = " ";
+            target.changeGrep();
+            app.findGrepPreferences = app.changeGrepPreferences = null;
+
+            // 2. General soft wraps: \r preceded by non-space/non-return,
+            // followed by non-return (i.e. not a blank line)
             app.findGrepPreferences.findWhat = "(?<=[^ \\r])\\r(?=[^\\r])";
             app.changeGrepPreferences.changeTo = " ";
             target.changeGrep();
