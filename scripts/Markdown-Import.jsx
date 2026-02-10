@@ -749,7 +749,8 @@ var MarkdownImport = (function() {
         '\\_': '§ESC§UNDERSCORE§',      // Underscore: \_
         '\\`': '§ESC§BACKTICK§',        // Backtick: \`
         '\\|': '§ESC§PIPE§',            // Pipe: \|
-        '\\~': '§ESC§TILDE§'            // Tilde: \~
+        '\\~': '§ESC§TILDE§',           // Tilde: \~
+        '\\.': '§ESC§PERIOD§'           // Period: \. (Pandoc escapes to prevent ordered list)
     };
     
     // Reverse mapping for restoration
