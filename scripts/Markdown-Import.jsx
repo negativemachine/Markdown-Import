@@ -220,6 +220,294 @@ var MarkdownImport = (function() {
                 'tableStyle': 'Style de tableau :',
                 'useTableAlignment': 'Utiliser l\'alignement Markdown (:--- | :---: | ---:)',
                 'tablesProcessed': '%d tableau(x) trait\u00E9(s)'
+            },
+            'de': {
+                // Hauptinterface
+                'title': 'Markdown Import v%s',
+                'noDocument': 'Kein Dokument ge\u00F6ffnet',
+                'noStyles': 'Das Skript Markdown Import kann nicht ausgef\u00FChrt werden, da Ihr Dokument keine Stile enth\u00E4lt.\n\nBitte erstellen Sie mindestens einige Absatz- und Zeichenstile, bevor Sie dieses Skript ausf\u00FChren.',
+
+                // Konfigurationspanel
+                'configuration': 'Konfiguration',
+                'load': 'Laden',
+                'save': 'Speichern',
+                'configDetected': 'Konfig. erkannt',
+
+                // Registerkarten
+                'paragraphStyles': 'Absatzstile',
+                'characterStyles': 'Zeichenstile',
+                'footnotes': 'Fu\u00DFnoten',
+
+                // Stilauswahl (Absatz)
+                'heading1': '# \u00DCberschrift 1',
+                'heading2': '## \u00DCberschrift 2',
+                'heading3': '### \u00DCberschrift 3',
+                'heading4': '#### \u00DCberschrift 4',
+                'heading5': '##### \u00DCberschrift 5',
+                'heading6': '###### \u00DCberschrift 6',
+                'blockquote': '> Zitat',
+                'bulletlist': '- Aufz\u00E4hlung',
+                'bodytext': 'Flie\u00DFtext',
+
+                // Stilauswahl (Zeichen)
+                'italic': '*Kursiv*',
+                'bold': '**Fett**',
+                'bolditalic': '***Fett kursiv***',
+                'underline': 'Unterstrichen',
+                'smallcaps': 'Kapit\u00E4lchen',
+                'subscript': 'Tiefgestellt',
+                'superscript': 'Hochgestellt',
+                'strikethrough': 'Durchgestrichen',
+
+                // Fu\u00DFnotenstil
+                'footnoteStyle': 'Fu\u00DFnotenstil',
+
+                // Schaltfl\u00E4chen
+                'removeBlankPages': 'Leere Seiten entfernen',
+                'cancel': 'Abbrechen',
+                'apply': 'Anwenden',
+
+                // Fortschritt
+                'applyingMarkdownStyles': 'Markdown-Stile anwenden',
+                'gettingTargetStory': 'Zieltext abrufen...',
+                'resettingStyles': 'Stile zur\u00FCcksetzen...',
+                'applyingParagraphStyles': 'Absatzstile anwenden...',
+                'applyingCharacterStyles': 'Zeichenstile anwenden...',
+                'processingPandocAttributes': 'Pandoc-Attribute verarbeiten...',
+                'processingImages': 'Bilder verarbeiten...',
+                'imageConfiguration': 'Bilder',
+                'aspectRatio': 'Seitenverh\u00E4ltnis',
+                'freeRatio': 'Frei (auto)',
+                'imageStyle': 'Bildstil',
+                'imageObjectStyle': 'Objektstil:',
+                'captionSettings': 'Beschriftung',
+                'captionObjectStyle': 'Rahmenstil:',
+                'captionParagraphStyle': 'Textstil:',
+                'captionGap': 'Abstand (pt):',
+                'captionMaxHeight': 'Max. H\u00F6he (pt):',
+                'selectImageFolder': 'Bilderordner w\u00E4hlen',
+                'imageNotFound': 'Bild nicht gefunden: %s',
+                'errorProcessingImage': 'Fehler bei Bildverarbeitung: %s',
+                'processingFootnotes': 'Fu\u00DFnoten verarbeiten...',
+                'processingFootnoteStyles': 'Fu\u00DFnotenstile verarbeiten...',
+                'cleaningUpText': 'Text bereinigen...',
+                'removingBlankPages': 'Leere Seiten entfernen...',
+                'done': 'Fertig!',
+
+                // Konfiguration
+                'saveConfiguration': 'Konfiguration speichern',
+                'loadConfiguration': 'Konfiguration laden',
+                'configFiles': 'Konfigurationsdateien',
+                'configSaved': 'Konfiguration erfolgreich gespeichert.',
+                'configLoaded': 'Konfiguration erfolgreich geladen.',
+
+                // Fehlermeldungen
+                'errorSavingConfig': 'Fehler beim Speichern der Konfiguration: %s',
+                'errorOpeningConfig': 'Konfigurationsdatei konnte nicht gespeichert werden: %s',
+                'errorInSaveConfig': 'Fehler in saveConfiguration: %s',
+                'errorParsingConfig': 'Fehler beim Parsen der Konfiguration: %s',
+                'errorOpeningConfigFile': 'Konfigurationsdatei konnte nicht ge\u00F6ffnet werden: %s',
+                'errorInLoadConfig': 'Fehler in loadConfiguration: %s',
+                'genericError': 'Fehler: %s\nZeile: %s',
+                'pagesRemoved': '(%d Seiten entfernt)',
+                'tables': 'Tabellen',
+                'tableConfiguration': 'Tabellenkonfiguration',
+                'processTablesEnabled': 'Markdown-Tabellen verarbeiten',
+                'tableStyle': 'Tabellenstil:',
+                'useTableAlignment': 'Markdown-Ausrichtung verwenden (:--- | :---: | ---:)',
+                'tablesProcessed': '%d Tabelle(n) verarbeitet'
+            },
+            'es': {
+                // Interfaz principal
+                'title': 'Markdown Import v%s',
+                'noDocument': 'Ning\u00FAn documento abierto',
+                'noStyles': 'No se puede ejecutar el script Markdown Import porque su documento no contiene estilos.\n\nPor favor, cree al menos algunos estilos de p\u00E1rrafo y de car\u00E1cter antes de ejecutar este script.',
+
+                // Panel de configuraci\u00F3n
+                'configuration': 'Configuraci\u00F3n',
+                'load': 'Cargar',
+                'save': 'Guardar',
+                'configDetected': 'Config. detectada',
+
+                // Panel de pesta\u00F1as
+                'paragraphStyles': 'Estilos de p\u00E1rrafo',
+                'characterStyles': 'Estilos de car\u00E1cter',
+                'footnotes': 'Notas al pie',
+
+                // Selectores de estilo (p\u00E1rrafo)
+                'heading1': '# T\u00EDtulo 1',
+                'heading2': '## T\u00EDtulo 2',
+                'heading3': '### T\u00EDtulo 3',
+                'heading4': '#### T\u00EDtulo 4',
+                'heading5': '##### T\u00EDtulo 5',
+                'heading6': '###### T\u00EDtulo 6',
+                'blockquote': '> Cita',
+                'bulletlist': '- Lista con vi\u00F1etas',
+                'bodytext': 'Cuerpo de texto',
+
+                // Selectores de estilo (car\u00E1cter)
+                'italic': '*Cursiva*',
+                'bold': '**Negrita**',
+                'bolditalic': '***Negrita cursiva***',
+                'underline': 'Subrayado',
+                'smallcaps': 'Versalitas',
+                'subscript': 'Sub\u00EDndice',
+                'superscript': 'Super\u00EDndice',
+                'strikethrough': 'Tachado',
+
+                // Estilo de nota al pie
+                'footnoteStyle': 'Estilo de nota al pie',
+
+                // Botones
+                'removeBlankPages': 'Eliminar p\u00E1ginas en blanco',
+                'cancel': 'Cancelar',
+                'apply': 'Aplicar',
+
+                // Progreso
+                'applyingMarkdownStyles': 'Aplicando estilos Markdown',
+                'gettingTargetStory': 'Obteniendo texto de destino...',
+                'resettingStyles': 'Restableciendo estilos...',
+                'applyingParagraphStyles': 'Aplicando estilos de p\u00E1rrafo...',
+                'applyingCharacterStyles': 'Aplicando estilos de car\u00E1cter...',
+                'processingPandocAttributes': 'Procesando atributos Pandoc...',
+                'processingImages': 'Procesando im\u00E1genes...',
+                'imageConfiguration': 'Im\u00E1genes',
+                'aspectRatio': 'Relaci\u00F3n de aspecto',
+                'freeRatio': 'Libre (auto)',
+                'imageStyle': 'Estilo de imagen',
+                'imageObjectStyle': 'Estilo de objeto:',
+                'captionSettings': 'Pie de imagen',
+                'captionObjectStyle': 'Estilo de marco:',
+                'captionParagraphStyle': 'Estilo de texto:',
+                'captionGap': 'Espacio (pt):',
+                'captionMaxHeight': 'Altura m\u00E1x. (pt):',
+                'selectImageFolder': 'Seleccionar carpeta de im\u00E1genes',
+                'imageNotFound': 'Imagen no encontrada: %s',
+                'errorProcessingImage': 'Error al procesar imagen: %s',
+                'processingFootnotes': 'Procesando notas al pie...',
+                'processingFootnoteStyles': 'Procesando estilos de notas al pie...',
+                'cleaningUpText': 'Limpiando texto...',
+                'removingBlankPages': 'Eliminando p\u00E1ginas en blanco...',
+                'done': '\u00A1Listo!',
+
+                // Configuraci\u00F3n
+                'saveConfiguration': 'Guardar configuraci\u00F3n',
+                'loadConfiguration': 'Cargar configuraci\u00F3n',
+                'configFiles': 'Archivos de configuraci\u00F3n',
+                'configSaved': 'Configuraci\u00F3n guardada correctamente.',
+                'configLoaded': 'Configuraci\u00F3n cargada correctamente.',
+
+                // Mensajes de error
+                'errorSavingConfig': 'Error al guardar la configuraci\u00F3n: %s',
+                'errorOpeningConfig': 'No se pudo guardar el archivo de configuraci\u00F3n: %s',
+                'errorInSaveConfig': 'Error en saveConfiguration: %s',
+                'errorParsingConfig': 'Error al analizar la configuraci\u00F3n: %s',
+                'errorOpeningConfigFile': 'No se pudo abrir el archivo de configuraci\u00F3n: %s',
+                'errorInLoadConfig': 'Error en loadConfiguration: %s',
+                'genericError': 'Error: %s\nL\u00EDnea: %s',
+                'pagesRemoved': '(%d p\u00E1ginas eliminadas)',
+                'tables': 'Tablas',
+                'tableConfiguration': 'Configuraci\u00F3n de tablas',
+                'processTablesEnabled': 'Procesar tablas Markdown',
+                'tableStyle': 'Estilo de tabla:',
+                'useTableAlignment': 'Usar alineaci\u00F3n Markdown (:--- | :---: | ---:)',
+                'tablesProcessed': '%d tabla(s) procesada(s)'
+            },
+            'it': {
+                // Interfaccia principale
+                'title': 'Markdown Import v%s',
+                'noDocument': 'Nessun documento aperto',
+                'noStyles': 'Impossibile eseguire lo script Markdown Import perch\u00E9 il documento non contiene stili.\n\nCreare almeno alcuni stili di paragrafo e di carattere prima di eseguire questo script.',
+
+                // Pannello di configurazione
+                'configuration': 'Configurazione',
+                'load': 'Carica',
+                'save': 'Salva',
+                'configDetected': 'Config. rilevata',
+
+                // Pannello schede
+                'paragraphStyles': 'Stili di paragrafo',
+                'characterStyles': 'Stili di carattere',
+                'footnotes': 'Note a pi\u00E8 di pagina',
+
+                // Selettori di stile (paragrafo)
+                'heading1': '# Titolo 1',
+                'heading2': '## Titolo 2',
+                'heading3': '### Titolo 3',
+                'heading4': '#### Titolo 4',
+                'heading5': '##### Titolo 5',
+                'heading6': '###### Titolo 6',
+                'blockquote': '> Citazione',
+                'bulletlist': '- Elenco puntato',
+                'bodytext': 'Corpo del testo',
+
+                // Selettori di stile (carattere)
+                'italic': '*Corsivo*',
+                'bold': '**Grassetto**',
+                'bolditalic': '***Grassetto corsivo***',
+                'underline': 'Sottolineato',
+                'smallcaps': 'Maiuscoletto',
+                'subscript': 'Pedice',
+                'superscript': 'Apice',
+                'strikethrough': 'Barrato',
+
+                // Stile nota a pi\u00E8 di pagina
+                'footnoteStyle': 'Stile nota a pi\u00E8 di pagina',
+
+                // Pulsanti
+                'removeBlankPages': 'Rimuovi pagine vuote',
+                'cancel': 'Annulla',
+                'apply': 'Applica',
+
+                // Avanzamento
+                'applyingMarkdownStyles': 'Applicazione stili Markdown',
+                'gettingTargetStory': 'Recupero del testo di destinazione...',
+                'resettingStyles': 'Reimpostazione stili...',
+                'applyingParagraphStyles': 'Applicazione stili di paragrafo...',
+                'applyingCharacterStyles': 'Applicazione stili di carattere...',
+                'processingPandocAttributes': 'Elaborazione attributi Pandoc...',
+                'processingImages': 'Elaborazione immagini...',
+                'imageConfiguration': 'Immagini',
+                'aspectRatio': 'Proporzioni',
+                'freeRatio': 'Libero (auto)',
+                'imageStyle': 'Stile immagine',
+                'imageObjectStyle': 'Stile oggetto:',
+                'captionSettings': 'Didascalia',
+                'captionObjectStyle': 'Stile cornice:',
+                'captionParagraphStyle': 'Stile testo:',
+                'captionGap': 'Distanza (pt):',
+                'captionMaxHeight': 'Altezza max (pt):',
+                'selectImageFolder': 'Seleziona cartella immagini',
+                'imageNotFound': 'Immagine non trovata: %s',
+                'errorProcessingImage': 'Errore elaborazione immagine: %s',
+                'processingFootnotes': 'Elaborazione note a pi\u00E8 di pagina...',
+                'processingFootnoteStyles': 'Elaborazione stili note a pi\u00E8 di pagina...',
+                'cleaningUpText': 'Pulizia del testo...',
+                'removingBlankPages': 'Rimozione pagine vuote...',
+                'done': 'Fatto!',
+
+                // Configurazione
+                'saveConfiguration': 'Salva configurazione',
+                'loadConfiguration': 'Carica configurazione',
+                'configFiles': 'File di configurazione',
+                'configSaved': 'Configurazione salvata con successo.',
+                'configLoaded': 'Configurazione caricata con successo.',
+
+                // Messaggi di errore
+                'errorSavingConfig': 'Errore durante il salvataggio della configurazione: %s',
+                'errorOpeningConfig': 'Impossibile salvare il file di configurazione: %s',
+                'errorInSaveConfig': 'Errore in saveConfiguration: %s',
+                'errorParsingConfig': 'Errore nell\'analisi della configurazione: %s',
+                'errorOpeningConfigFile': 'Impossibile aprire il file di configurazione: %s',
+                'errorInLoadConfig': 'Errore in loadConfiguration: %s',
+                'genericError': 'Errore: %s\nRiga: %s',
+                'pagesRemoved': '(%d pagine rimosse)',
+                'tables': 'Tabelle',
+                'tableConfiguration': 'Configurazione tabelle',
+                'processTablesEnabled': 'Elabora tabelle Markdown',
+                'tableStyle': 'Stile tabella:',
+                'useTableAlignment': 'Usa allineamento Markdown (:--- | :---: | ---:)',
+                'tablesProcessed': '%d tabella/e elaborata/e'
             }
         };
         
@@ -254,7 +542,7 @@ var MarkdownImport = (function() {
         
         /**
          * Changes the current language
-         * @param {string} lang - Language code ('fr' or 'en')
+         * @param {string} lang - Language code ('de', 'en', 'es', 'fr' or 'it')
          */
         function setLanguage(lang) {
             if (translations[lang]) {
@@ -272,16 +560,16 @@ var MarkdownImport = (function() {
         
         /**
          * Detects the language of the InDesign interface
-         * @return {string} Language code ('fr' or 'en')
+         * @return {string} Language code ('de', 'en', 'es', 'fr' or 'it')
          */
         function detectInDesignLanguage() {
             try {
                 // Debug info to trace execution
                 $.writeln("Attempting to detect InDesign language...");
-                
+
                 // Get localization string using the full app object
                 var locale = "";
-                
+
                 // Try different methods to access locale
                 if (typeof app !== 'undefined' && app.hasOwnProperty('locale')) {
                     locale = String(app.locale);
@@ -293,20 +581,29 @@ var MarkdownImport = (function() {
                     $.writeln("Could not access InDesign locale properties");
                     return 'en'; // Default to English
                 }
-                
+
                 // Convert locale to lowercase for case-insensitive comparison
                 locale = locale.toLowerCase();
-                
+
                 // Debug the detected locale
                 $.writeln("Normalized locale: " + locale);
-                
-                // Check for French locales
+
+                // Detect supported locales
                 if (locale.indexOf('fr') !== -1) {
                     $.writeln("French locale detected, setting language to fr");
                     return 'fr';
+                } else if (locale.indexOf('de') !== -1) {
+                    $.writeln("German locale detected, setting language to de");
+                    return 'de';
+                } else if (locale.indexOf('es') !== -1) {
+                    $.writeln("Spanish locale detected, setting language to es");
+                    return 'es';
+                } else if (locale.indexOf('it') !== -1) {
+                    $.writeln("Italian locale detected, setting language to it");
+                    return 'it';
                 } else {
                     // Default to English for any other locale
-                    $.writeln("Non-French locale detected, setting language to en");
+                    $.writeln("Locale not matched, defaulting to en");
                     return 'en';
                 }
             } catch (e) {
@@ -315,7 +612,7 @@ var MarkdownImport = (function() {
                 $.writeln("Error details: " + e.message);
                 if (e.line) $.writeln("Error line: " + e.line);
                 if (e.stack) $.writeln("Error stack: " + e.stack);
-                
+
                 // In case of error, use English by default
                 return 'en';
             }
@@ -3178,17 +3475,23 @@ var MarkdownImport = (function() {
        // Ajouter un petit espace entre le texte et le dropdown
        langGroup.add("statictext", undefined, "  ");
        // Ajouter le dropdown
-       var langDropdown = langGroup.add('dropdownlist', undefined, ['En', 'Fr']);
-        
+       var langCodes = ['de', 'en', 'es', 'fr', 'it'];
+       var langLabels = ['De', 'En', 'Es', 'Fr', 'It'];
+       var langDropdown = langGroup.add('dropdownlist', undefined, langLabels);
+
         // Sélectionner la langue actuelle
-        langDropdown.selection = I18n.getLanguage() === 'fr' ? 1 : 0;
-        
+        var currentLangIndex = 1; // default to En
+        var currentLang = I18n.getLanguage();
+        for (var li = 0; li < langCodes.length; li++) {
+            if (langCodes[li] === currentLang) {
+                currentLangIndex = li;
+                break;
+            }
+        }
+        langDropdown.selection = currentLangIndex;
+
         langDropdown.onChange = function() {
-            // Changer la langue
-            I18n.setLanguage(langDropdown.selection.index === 1 ? 'fr' : 'en');
-            
-            // Fermer et rouvrir la fenêtre pour appliquer les changements immédiatement
-            var currentLanguage = I18n.getLanguage();
+            I18n.setLanguage(langCodes[langDropdown.selection.index]);
             w.close();
             var newWindow = showUI(styles, preloadedConfig);
             newWindow.show();
