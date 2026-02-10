@@ -1751,16 +1751,14 @@ var MarkdownImport = (function() {
      */
     function detectClassPrefix(doc) {
         try {
-            app.findGrepPreferences = app.changeGrepPreferences = null;
-            app.findGrepPreferences.findWhat = "^#{1,6}\\s+.+\\{[^\\}]*\\.[a-zA-Z][^\\}]*\\}";
-            var found = doc.findGrep();
-            app.findGrepPreferences = app.changeGrepPreferences = null;
-
-            if (found.length > 0) {
-                var matchText = found[0].contents;
-                var classMatch = matchText.match(/\.([a-zA-Z][\w-]*)/);
-                if (classMatch) {
-                    return classMatch[1];
+            // Search all stories for a heading with Pandoc class attributes
+            // Uses JavaScript regex instead of InDesign GREP for reliability across versions
+            for (var s = 0; s < doc.stories.length; s++) {
+                var text = doc.stories[s].contents;
+                // Match heading line with {... .class ...} — InDesign uses \r for paragraph breaks
+                var match = text.match(/(^|\r)#{1,6}[ \t]+[^\r\n]+\{[^\r\n}]*\.([a-zA-Z][\w-]*)[^\r\n}]*\}/);
+                if (match) {
+                    return match[2];
                 }
             }
         } catch (e) {
@@ -1816,12 +1814,15 @@ var MarkdownImport = (function() {
      */
     function stripClassAttributes(target) {
         try {
-            // Match {... .class ...} only on heading lines: capture heading, strip block
-            app.findGrepPreferences = app.changeGrepPreferences = null;
-            app.findGrepPreferences.findWhat = "(^#{1,6}\\s+.+?)\\s*\\{[^\\}]+\\}";
-            app.changeGrepPreferences.changeTo = "$1";
-            target.changeGrep();
-            app.findGrepPreferences = app.changeGrepPreferences = null;
+            // Strip Pandoc attribute blocks from heading lines using JavaScript regex
+            // instead of InDesign GREP for reliability across InDesign versions.
+            // InDesign uses \r for paragraph breaks; JS . does not match \r,
+            // so [^\r\n] safely constrains matching within a single paragraph.
+            var text = target.contents;
+            var stripped = text.replace(/(^|\r)(#{1,6}[ \t]+[^\r\n]+?)[ \t]*\{[^\r\n}]+\}/g, "$1$2");
+            if (stripped !== text) {
+                target.contents = stripped;
+            }
         } catch (e) {
             $.writeln("Error in stripClassAttributes: " + e.message);
         }
