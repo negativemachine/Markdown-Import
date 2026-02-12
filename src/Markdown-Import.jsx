@@ -5,7 +5,7 @@
  * replacing Markdown tags with corresponding paragraph and character styles,
  * and converting Markdown footnotes into real InDesign footnotes.
  * 
- * @version 1.0.11
+ * @version 1.0.1
  * @license MIT
  * @author entremonde / Spectral lab
  * @website http://lab.spectral.art
@@ -14,7 +14,7 @@
 // Create a namespace to avoid polluting global scope
 var MarkdownImport = (function() {
     "use strict";
-    var VERSION = "1.0.11";
+    var VERSION = "1.0.1";
     
     // Set to true to enable logging in silent mode
     var enableLogging = false;
