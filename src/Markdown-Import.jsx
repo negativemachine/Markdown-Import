@@ -5,7 +5,7 @@
  * replacing Markdown tags with corresponding paragraph and character styles,
  * and converting Markdown footnotes into real InDesign footnotes.
  * 
- * @version 1.0.1
+ * @version 1.0.12
  * @license MIT
  * @author entremonde / Spectral lab
  * @website http://lab.spectral.art
